@@ -7,20 +7,29 @@ api.events.subscribe(api.events.Event.FileCreated, function(file)
 end)
 
 
+local Path = require('plenary.path')
+
 -- sync tree with opened file
 local function open_nvim_tree(data)
   local fp = data.file
   local real_file = vim.fn.filereadable(fp) == 1
   local no_name = fp == "" and vim.bo[data.buf].buftype == ""
 
-  if not real_file and not no_name then return end
+  if not real_file and not no_name then return
+  else
+    -- if is xxx/.git/xxx, e.g. COMMIT_MSG
+    local path = Path:new(fp)
+    local ds = path:parent().filename
+    local last2 = vim.fn.fnamemodify(ds, ':t')
+    if last2 == ".git" then return end
+  end
   -- open the tree, find the file but don't focus it
   --[[ cannot work: just open tree without sync but focus on it
   api.tree.open({ focus = false, 
   path = fp,
   })
   ]]--
-  api.tree.find_file({buf=data.file, open=true, focus=false})
+  api.tree.find_file({buf=fp, open=true, focus=false})
 end
 vim.api.nvim_create_autocmd("BufReadPost", {callback=open_nvim_tree})
 
