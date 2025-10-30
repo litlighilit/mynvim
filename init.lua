@@ -104,9 +104,8 @@ if tree_nvim then
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
   require('nvim-tree').setup()
-  tree_cmd = 'NvimTreeToggle'
+  tree_cmd = 'NvimTreeFindFileToggle!'
   require'cfg_ntree'
-
 end
 mapl('e', '<cmd>' .. tree_cmd .. '<cr>')
 

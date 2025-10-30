@@ -8,37 +8,51 @@ end)
 
 
 local Path = require('plenary.path')
+local tree = api.tree
 
 -- sync tree with opened file
-local function open_nvim_tree(data)
+local function open_nvim_tree(data, current_window)
+  --XXX:TODO: `nvim +n xxx`'s +n just targets to nvim-tree instead of `xxx` file
   local fp = data.file
-  local real_file = vim.fn.filereadable(fp) == 1
-  local no_name = fp == "" and vim.bo[data.buf].buftype == ""
+  local bo = vim.bo[data.buf]
 
-  if not real_file and not no_name then return
-  else
-    -- if is xxx/.git/xxx, e.g. COMMIT_MSG
-    local path = Path:new(fp)
-    local ds = path:parent().filename
-    local last2 = vim.fn.fnamemodify(ds, ':t')
-    if last2 == ".git" then return end
+  if vim.fn.filereadable(fp) == 0 or
+      bo.buftype ~= "" or -- not a normal buffer (not related to a file)
+      bo.filetype == "git" -- e.g. git-flog's tmp file
+    then return
   end
+  -- if is xxx/.git/xxx, e.g. COMMIT_MSG
+  local path = Path:new(fp)
+  local ds = path:parent().filename
+  local last2 = vim.fn.fnamemodify(ds, ':t')
+  if last2 == ".git" then return end
   -- open the tree, find the file but don't focus it
   --[[ cannot work: just open tree without sync but focus on it
-  api.tree.open({ focus = false, 
+  tree.open({ focus = false, 
   path = fp,
-  })
-  ]]--
-  api.tree.find_file({buf=fp, open=true, focus=false})
+  })]]--
+  tree.find_file{buf=fp, open=true,
+    focus=false, current_window=current_window, -- XXX: a single focus=false doesn't work
+    update_root=true,
+  }
 end
-vim.api.nvim_create_autocmd("BufReadPost", {callback=open_nvim_tree})
+
+local OpenTreeEvent  = "BufEnter"
+vim.api.nvim_create_autocmd(OpenTreeEvent, {callback=function (data)
+  open_nvim_tree(data, true)
+  tree.close()
+  vim.api.nvim_del_autocmd(data.id)
+  vim.api.nvim_create_autocmd(OpenTreeEvent, {callback=function (args)
+    -- don't open tree if it's closed manually
+    if not tree.is_visible{any_tabpage=true} then return end
+    open_nvim_tree(args, false)
+  end})
+end})
 
 -- Make :bd and :q behave as usual when tree is visible
 vim.api.nvim_create_autocmd({'BufEnter', 'QuitPre'}, {
   nested = false,
   callback = function(e)
-    local tree = api.tree
-
     -- Nothing to do if tree is not opened
     if not tree.is_visible() then
       return
