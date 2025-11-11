@@ -139,7 +139,6 @@ if not vim.opt.statusline then  -- empty by default
 end
 
 mapl(GitK, '<cmd>vert Git<cr>')
-mapl('l', '<cmd>Git log --oneline<cr>')
 
 -- ## finder
 --  not a local, I want it to be a global
