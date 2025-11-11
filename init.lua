@@ -17,7 +17,8 @@ local Plug = vim.fn['plug#']
 
 vim.call('plug#begin')
 require'lit-lsp'
-Plug 'ryanoasis/vim-devicons'  -- opt dep of sidebar and alpha
+--Plug 'ryanoasis/vim-devicons'
+Plug 'nvim-tree/nvim-web-devicons'  -- opt dep of sidebar and alpha
 local tree_nvim = true
 if tree_nvim then
   Plug 'nvim-tree/nvim-tree.lua'  -- sidebar
