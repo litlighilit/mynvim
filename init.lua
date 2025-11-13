@@ -119,8 +119,9 @@ if not shall_pre_leader_map_insert then
   toggletermOpt.insert_mappings = false -- if the open mapping applies in insert mode
   toggletermOpt.terminal_mappings = false  -- if the open mapping applies in the TERMINAL mode in the opened terminals
 end
-map('t', '\\', '<c-\\><c-n>')  -- escape insert mode in terminal, I often use <esc-.> to ref the last item in the latest cmd
-map('t', '<M-\\>', '\\', {noremap=true})  -- insert `\` char
+map('t', '<M-\\>', '<c-\\><c-n>')  -- escape insert mode in terminal, I often use <esc-.> to ref the last item in the latest cmd
+-- Here use Alt-\ to keep consistent with vim
+-- map('t', '<M-\\>', '\\', {noremap=true})  -- insert `\` char
 
 require('toggleterm').setup(toggletermOpt)
 require('vsc-term')
