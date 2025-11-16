@@ -16,7 +16,7 @@ local Plug = vim.fn['plug#']
 
 
 vim.call('plug#begin')
-require'lit-lsp'
+local lspCfg = require'lit-lsp'
 --Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-tree/nvim-web-devicons'  -- opt dep of sidebar and alpha
 local tree_nvim = true
@@ -37,6 +37,8 @@ Plug 'natecraddock/workspaces.nvim' -- workspace
 Plug 'natecraddock/sessions.nvim' -- workspace
 
 vim.call('plug#end')
+
+lspCfg.setup()
 
 -- ## workspace
 local sessions = require'sessions'
