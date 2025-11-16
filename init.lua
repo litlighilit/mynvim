@@ -93,6 +93,7 @@ local function mapl(l, r, opts)  map(pre_leader_mode, '<leader>'..l, r, opts) en
 require'highlights'
 require'gui_editor_like_keymaps'
 
+mapl('v', lspCfg.toggleMarkdownView)
 -- ## buffer mgr
 --[[Cannot use: Error executing Lua callback:
  ...share/nvim/plugged/bufferin.nvim/lua/bufferin/buffer.lua:129: attempt to index field 'display' (a nil value) 
