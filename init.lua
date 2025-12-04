@@ -63,8 +63,10 @@ require'workspaces'.setup{
 require'telescope'.load_extension"workspaces"
 
 -- ## theme
+if not vim.g.vscode then
 require'alpha'.setup(require'alpha.themes.theta'.config)
 require'vscode'.setup()
+end
 vim.wo.number = true
 
 local function run_intty()
@@ -76,7 +78,7 @@ end
 
 local the_colorscheme = "vscode"
 local intty = run_intty()
-if intty then the_colorscheme = "evening"  -- vscode theme in pure text mode is hard to read
+if intty or vim.g.vscode then the_colorscheme = "evening"  -- vscode theme in pure text mode is hard to read
 end
 vim.cmd.colorscheme(the_colorscheme)
 
@@ -103,6 +105,7 @@ mapl('v', lspCfg.toggleMarkdownView)
 -- See telescope config below
 
 -- ## sidebar
+if not vim.g.vscode then
 local tree_cmd = 'NERDTreeToggle'
 if tree_nvim then
   vim.g.loaded_netrw = 1
@@ -112,6 +115,7 @@ if tree_nvim then
   require'cfg_ntree'
 end
 mapl('e', '<cmd>' .. tree_cmd .. '<cr>')
+end
 
 -- ## term
 local toggletermOpt = {

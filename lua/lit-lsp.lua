@@ -5,6 +5,9 @@
 local _G = {}
 function _G.setup() end
 function _G.toggleMarkdownView() end
+if vim.g.vscode then
+	return _G
+end
 
 local Plug = vim.fn['plug#']
 
