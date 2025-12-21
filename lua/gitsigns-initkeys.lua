@@ -39,6 +39,9 @@ require('gitsigns').setup{
     mapd('n', '<leader>hs', gitsigns.stage_hunk, 'stage hunk')
     mapd('n', '<leader>hr', gitsigns.reset_hunk, 'reset hunk')
 
+    mapd({'n', 'i'}, '<C-h>', gitsigns.stage_hunk, 'stage hunk')
+    mapd({'n', 'i'}, '<C-S-h>', gitsigns.reset_hunk, 'reset hunk')
+
     map('v', '<leader>hs', function()
       gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
       gitsigns.toggle_signs(true)  -- fix bug that sign column not updated
