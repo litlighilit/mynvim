@@ -12,12 +12,12 @@ In addition:
 
 - `<leader>?` -> help
 - `<leader>l` -> git log
-- `<leader><tab>` -> switch buffers  (named after Ctrl-Tab in VSCode)
+- ``<leader>` `` -> switch current two buffers  (named after Ctrl-Tab in VSCode)
+- `<leader>,` -> switch between buffers
 - `<leader>t` -> toggle Terminal (as Ctrl-\` cannot be `keymap`-ed)
 
 In Terminal:
-- `\` -> escape terminal insert mode
-- `<M-\>` -> insert `\` as is
+- `<A-\>` -> escape terminal insert mode
 
 ### Finder
 - `<leader>f`:
