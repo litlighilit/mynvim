@@ -27,6 +27,8 @@ _G.setup = function ()
   spec.config.preview.hybrid_modes = {'n'}
   --local presets = require("markview.presets").tables
   require("markview.extras.editor").setup()
+  require("markview.extras.checkboxes").setup()
+  vim.keymap.set({"v", "n"}, "<C-x>", ":Checkbox toggle<CR>", { desc = "Toggle checkbox" })
 end
 _G.toggleMarkdownView = function ()
   vim.cmd "Markview splitToggle"
