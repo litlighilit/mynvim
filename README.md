@@ -1,5 +1,10 @@
 # lit nvim rc
 
+## Setup
+- install vim-plug, ref [junegunn/vim-plug](https://github.com/junegunn/vim-plug#neovim)
+- clone this repo to `$XDG_CONFIG_HOME/nvim` (often ~/.config/nvim)
+- run `nvim -c 'PlugUpdate' -c 'qa'`
+
 ## Design
 I'm used to `VSCode`, so many configures are just aimed to minic it.
 
