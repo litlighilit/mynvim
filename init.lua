@@ -31,6 +31,7 @@ Plug 'tpope/vim-fugitive'  -- git command. dep of vim-flog
 Plug 'rbong/vim-flog'      -- git graph.
 Plug 'nvim-lua/plenary.nvim'  -- dep of telescope, alpha
 Plug 'nvim-telescope/telescope.nvim'  -- find files/strings
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'  -- find files/strings
 Plug 'goolord/alpha-nvim'  -- welcome page & opened files history
 Plug 'Mofiqul/vscode.nvim' -- vscode theme
 Plug 'natecraddock/workspaces.nvim' -- workspace
@@ -150,12 +151,18 @@ end
 mapl(GitK, '<cmd>vert Git<cr>')
 
 -- ## finder
+require'live_grep'
+local tele_live_grep = require('telescope').extensions.live_grep_args
+local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+
 --  not a local, I want it to be a global
 tele_bltin = require('telescope.builtin')  -- though u can do :Telescope XX ARG=VAL
 --"<cmd>lua tele_bltin.grep_string({search=vim.fn.expand('<cword>')})<cr>"
-mapl('fw', function() tele_bltin.grep_string({search=vim.fn.expand('<cword>')}) end, { desc = 'Telescope find word under cursor' })
+mapl('fw', live_grep_args_shortcuts.grep_word_under_cursor
+  --[[function() tele_bltin.grep_string({search=vim.fn.expand('<cword>')}) end]]
+  , { desc = 'Telescope find word under cursor' })
 mapl('ff', tele_bltin.find_files, { desc = 'Telescope find files' })
-mapl('fs', tele_bltin.live_grep, { desc = 'Telescope live grep' })
+mapl('fs', tele_live_grep.live_grep_args--[[tele_bltin.live_grep]], { desc = 'Telescope live grep' })
 mapl('fg', tele_bltin.git_commits, { desc = 'Telescope live search commits' })
 mapl('fm', tele_bltin.marks, { desc = 'Telescope list marks' })
 mapl('fh', tele_bltin.help_tags, { desc = 'Telescope help tags' })
