@@ -62,8 +62,9 @@ doIfExe('magick', function()
 end)
 
 -- ## nim
-Plug 'alaviss/nim.nvim'
+Plug 'litlighilit/nim.nvim'
 vim.opt.foldenable = false
+-- doIfExe('nimlsp', vim.lsp.enable, 'nimls')
 
 Plug 'prabirshrestha/asyncomplete.vim'
 vim.cmd [[
@@ -79,7 +80,6 @@ au User asyncomplete_setup call asyncomplete#register_source({
 Plug 'neovim/nvim-lspconfig'
 
 vim.lsp.enable('clangd')
-doIfExe('nimlsp', vim.lsp.enable, 'nimls')
 
 return _G
 
