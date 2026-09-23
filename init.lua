@@ -70,16 +70,20 @@ require'vscode'.setup()
 end
 vim.wo.number = true
 
-local function run_intty()
+local function poor_display_vscode_theme()
+	-- We only wanna to distinguish `running in tty mode`
+	-- a.k.a. text mode
+	--
 	--local res = vim.fn.system({'tty'})
 	-- XXX: find is since lua 5.4, but nvim force lua 5.1
 	-- return res:match('^/dev/tty/') == 1
-	return os.getenv('DISPLAY') == nil
+	return os.getenv('DISPLAY') == nil and 
+		os.getenv('SSH_CONNECTION') == nil
 end
 
 local the_colorscheme = "vscode"
-local intty = run_intty()
-if intty or vim.g.vscode then the_colorscheme = "evening"  -- vscode theme in pure text mode is hard to read
+if poor_display_vscode_theme() or vim.g.vscode then
+	the_colorscheme = "evening"  -- vscode theme in pure text mode is hard to read
 end
 vim.cmd.colorscheme(the_colorscheme)
 
