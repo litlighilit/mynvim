@@ -32,6 +32,7 @@ Plug 'rbong/vim-flog'      -- git graph.
 Plug 'nvim-lua/plenary.nvim'  -- dep of telescope, alpha
 Plug 'nvim-telescope/telescope.nvim'  -- find files/strings
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'  -- find files/strings
+Plug 'stefandtw/quickfix-reflector.vim'  -- make quickfix editable
 Plug 'goolord/alpha-nvim'  -- welcome page & opened files history
 Plug 'Mofiqul/vscode.nvim' -- vscode theme
 Plug 'natecraddock/workspaces.nvim' -- workspace
