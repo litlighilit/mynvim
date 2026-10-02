@@ -9,7 +9,7 @@ local function wrap(autocmd, cb)
     callback = cb,
   })
 end
-local gitLogCmd = [[<cmd>Flog -format=%h\ %<(64,trunc)%s%ad -date=format:%y-%m-%d\ %H:%M<CR>]]
+local gitLogCmd = [[<cmd>Flog -format=%h\ %<(64,trunc)%s%ad\ \ %an -date=format:%y-%m-%d\ %H:%M<CR>]]
 
 local buf_map = vim.api.nvim_buf_set_keymap
 function M.setup(mapFlog, mapRet)
