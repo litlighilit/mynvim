@@ -166,6 +166,7 @@ tele_bltin = require('telescope.builtin')  -- though u can do :Telescope XX ARG=
 mapl('fw', live_grep_args_shortcuts.grep_word_under_cursor
   --[[function() tele_bltin.grep_string({search=vim.fn.expand('<cword>')}) end]]
   , { desc = 'Telescope find word under cursor' })
+map('v', 'fw', live_grep_args_shortcuts.grep_visual_selection, { desc = 'Telescope visual selection' })
 mapl('ff', tele_bltin.find_files, { desc = 'Telescope find files' })
 mapl('fs', tele_live_grep.live_grep_args--[[tele_bltin.live_grep]], { desc = 'Telescope live grep' })
 mapl('fg', tele_bltin.git_commits, { desc = 'Telescope live search commits' })
