@@ -9,6 +9,8 @@ if vim.g.vscode then
 	return _G
 end
 
+require"deftab"
+
 local Plug = vim.fn['plug#']
 
 local function doIfExe(exe, func, ...)
