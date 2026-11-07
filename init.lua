@@ -181,7 +181,9 @@ local function ls_buf(opts)
 	'm', true)
 end
 mapl('fb', find_buf, { desc = 'Telescope buffers' })
-mapl('`', '<c-^>', {desc='Switch between current buffer(NOT tab) (alias of CTRL-^, a.k.a. Alt-Tab)'})
+local alter_buf_opt = {desc='Switch between current buffer(NOT tab) (alias of CTRL-^, a.k.a. Alt-Tab)'}
+mapl('`', '<c-^>', alter_buf_opt)
+mapl(';', '<c-^>', alter_buf_opt)
 mapl(',', ls_buf, {desc='Telescope Buffer Live'})
 -- named after :ls
 vim.api.nvim_create_user_command("Ls", ls_buf, {})
