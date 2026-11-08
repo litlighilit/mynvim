@@ -136,8 +136,7 @@ map('t', '<M-\\>', '<c-\\><c-n>')  -- escape insert mode in terminal, I often us
 -- Here use Alt-\ to keep consistent with vim
 -- map('t', '<M-\\>', '\\', {noremap=true})  -- insert `\` char
 
-require('toggleterm').setup(toggletermOpt)
-require('vsc-term')
+require('vsc-term').setup(toggletermOpt)
 
 -- ## git
 -- `require('gitsigns').setup()` is done in following file
