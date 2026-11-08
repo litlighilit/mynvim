@@ -15,15 +15,19 @@
 local toggleterm = require("toggleterm")
 local terms = require("toggleterm.terminal")
 
-function ToggleToTerminal(count)
+local function switch_or_create_terminal(count)
   local last_id = terms.get_focused_id()
-  if last_id then toggleterm.toggle(last_id) end
+  local is_focused = last_id ~= nil
+  if is_focused then
+    toggleterm.toggle(last_id)  -- close previous one
+  end
+  if count == 0 then count = terms.next_id() end
   toggleterm.toggle(count)
 end
 
 vim.api.nvim_create_user_command(
   "T",
-  function (opts)  ToggleToTerminal(opts.count) end,
+  function (opts) switch_or_create_terminal(opts.count) end,
   { count = true, }
 )
 
