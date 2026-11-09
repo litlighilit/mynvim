@@ -18,11 +18,12 @@ function M.setup(mapFlog, mapRet)
       -- the subject limits to 50 chars
       -- datetime len: 14
       buf_map(0, "n", mapFlog, gitLogCmd, {})
-      buf_map(0, "n", mapRet,  [[gq]], {noremap = false,})  -- fugitive hooks gq
+      buf_map(0, "n", mapRet,  [[gq]], {})  -- fugitive hooks gq
+      buf_map(0, "n", "<TAB>",  "1p", {})  -- fugitive hooks 1p
     end
   )
   wrap("FlogUpdate", function()
-      buf_map(0, "n", mapFlog, [[gq]], {noremap = false,})
+      buf_map(0, "n", mapFlog, [[gq]], {})
     end
   )
 end
