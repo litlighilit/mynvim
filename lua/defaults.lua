@@ -1,13 +1,13 @@
 
-print("def tab")
 local opt = vim.opt
 
--- defval
+-- common options
 opt.expandtab = true
 opt.tabstop = 4  -- tab display width
 opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.smartindent = true
+opt.foldmethod = 'indent'
 
 local function set_indent(width, use_tabs)
   return function(args)

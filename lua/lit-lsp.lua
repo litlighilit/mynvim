@@ -9,7 +9,7 @@ if vim.g.vscode then
 	return _G
 end
 
-require"deftab"
+require"defaults"
 
 local Plug = vim.fn['plug#']
 
