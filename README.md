@@ -86,4 +86,10 @@ In Terminal:
   - w -> word
   - s -> string (regex)
   - g -> git commits
-  - m -> marks
+- m -> marks
+
+`<leader>fw` searches the cursor word or visual selection literally. Visual
+search supports UTF-8, backwards/block/line selections and multiline matches.
+It uses the builtin Telescope live-grep picker so quotes and leading dashes
+in selected text are treated as pattern text; `<leader>fs` retains the separate
+live-grep-args picker for entering ripgrep options.
