@@ -31,6 +31,11 @@ A system-installed clangd is enabled for C/C++ when available.
 Nim retains its existing asyncomplete/nimsuggest integration, with cmp disabled
 for Nim to avoid two completion engines competing for the popup menu.
 
+LuaSnip and friendly-snippets add language-specific templates to the completion
+menu. When the menu is closed, `Tab` expands a snippet or advances its active
+placeholder; `Shift-Tab` goes back. Outside a snippet, normal Tab behavior is
+preserved. The optional jsregexp build requires `make` and a C compiler.
+
 ## Configuration checks
 
 From the repository, run `nvim --headless -i NONE -c 'luafile tests/run.lua'`

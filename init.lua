@@ -43,6 +43,9 @@ if not vim.g.vscode then
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-buffer'
+  Plug('L3MON4D3/LuaSnip', { ['do'] = 'make install_jsregexp' })
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'saadparwaiz1/cmp_luasnip'
 end
 
 vim.call('plug#end')
