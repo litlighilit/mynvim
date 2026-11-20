@@ -46,6 +46,7 @@ if not vim.g.vscode then
   Plug('L3MON4D3/LuaSnip', { ['do'] = 'make install_jsregexp' })
   Plug 'rafamadriz/friendly-snippets'
   Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'stevearc/conform.nvim'
 end
 
 vim.call('plug#end')
@@ -54,6 +55,7 @@ lspCfg.setup()
 if not vim.g.vscode then
   require('completion').setup()
   require('lsp-setup').setup()
+  require('formatting').setup()
 end
 
 -- ## workspace

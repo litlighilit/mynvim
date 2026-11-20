@@ -37,6 +37,16 @@ menu. When the menu is closed, `Tab` expands a snippet or advances its active
 placeholder; `Shift-Tab` goes back. Outside a snippet, normal Tab behavior is
 preserved. The optional jsregexp build requires `make` and a C compiler.
 
+### Formatting
+
+Conform organizes Python imports with Ruff, then runs Ruff's formatter before
+saving (2 second timeout). Ruff is installed by Mason as part of Python support.
+Import organization can remove unused imports; project Ruff settings still apply.
+Other filetypes fall back to an attached LSP's formatter when supported.
+`<leader>cf` formats manually, including files without an attached LSP;
+`:ConformInfo` shows formatter availability. Special/nonmodifiable buffers are
+not formatted on save. Formatters run locally, not on a remote service.
+
 ## Configuration checks
 
 From the repository, run `nvim --headless -i NONE -c 'luafile tests/run.lua'`
