@@ -186,8 +186,14 @@ mapl('fg', tele_bltin.git_commits, { desc = 'Telescope live search commits' })
 mapl('fm', tele_bltin.marks, { desc = 'Telescope list marks' })
 mapl('fh', tele_bltin.help_tags, { desc = 'Telescope help tags' })
 local function find_buf()
-	tele_bltin.buffers({select_current=true, sort_mru=true})
-	vim.api.nvim_buf_set_keymap(0, 'n', 'dd', '<M-d>', {desc="delete selected buffer"})
+	tele_bltin.buffers({
+		select_current=true,
+		sort_mru=true,
+		attach_mappings=function(_, picker_map)
+			picker_map('n', 'dd', require('telescope.actions').delete_buffer)
+			return true
+		end,
+	})
 end
 local function ls_buf(opts)
 	-- minic typing ESC to escape from insert mode in buffers select page
