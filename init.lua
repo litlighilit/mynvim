@@ -47,6 +47,7 @@ if not vim.g.vscode then
   Plug 'rafamadriz/friendly-snippets'
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'stevearc/conform.nvim'
+  Plug 'folke/which-key.nvim'
 end
 
 vim.call('plug#end')
@@ -204,3 +205,7 @@ mapl(',', ls_buf, {desc='Telescope Buffer Live'})
 vim.api.nvim_create_user_command("Ls", ls_buf, {})
 
 mapl('?', tele_bltin.keymaps, { desc = 'Telescope help mapkeys' })
+
+if not vim.g.vscode then
+  require('key-hints').setup()
+end

@@ -47,6 +47,15 @@ Other filetypes fall back to an attached LSP's formatter when supported.
 `:ConformInfo` shows formatter availability. Special/nonmodifiable buffers are
 not formatted on save. Formatters run locally, not on a remote service.
 
+### Key hints
+
+Which-key shows a classic hint popup after a 300 ms prefix delay in normal,
+visual/select and operator-pending modes. Leader groups use English labels.
+It does not intercept Space in insert/terminal mode. Existing bindings stay
+unchanged: `<leader>e` toggles the tree, `<leader>fs` searches text,
+`<leader>fg` searches commits, and Git buffers use `<leader>w` for word diff.
+`<leader>?` still searches all mappings with Telescope.
+
 ## Configuration checks
 
 From the repository, run `nvim --headless -i NONE -c 'luafile tests/run.lua'`
@@ -79,3 +88,5 @@ In Terminal:
   - s -> string (regex)
   - g -> git commits
   - m -> marks
+
+
