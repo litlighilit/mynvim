@@ -5,6 +5,29 @@
 - clone this repo to `$XDG_CONFIG_HOME/nvim` (often ~/.config/nvim)
 - run `nvim -c 'PlugUpdate' -c 'qa'`
 
+Requires Neovim 0.11.3 or newer. After adding plugins, run `:PlugInstall` and
+restart Neovim. Mason installs Pyright, Ruff, gopls, lua-language-server,
+bash-language-server and rust-analyzer on interactive startup; use `:Mason`
+to inspect installation status. Node/npm and Go are needed by some installers.
+A system-installed clangd is enabled for C/C++ when available.
+
+## Language support
+
+- Python uses a project's `.venv/bin/python` when present; otherwise Pyright
+  uses its normal interpreter discovery. Rust runs `cargo check` on save.
+- LSP buffers: `gd` definition, `gD` declaration, `gr` references,
+  `gi` implementation, `K` documentation, insert-mode `Ctrl-k` signature help,
+  `<leader>rn` rename, `<leader>ca` code action, `<leader>cf` format.
+- `gl` shows diagnostics, `<leader>dl` opens their location list, and
+  `<leader>fd` searches diagnostics. Neovim's `[d` / `]d` navigate diagnostics.
+- Existing Git/search/window mappings are preserved.
+
+## Configuration checks
+
+From the repository, run `nvim --headless -i NONE -c 'luafile tests/run.lua'`
+after installing the plugins and language servers. This checks startup and
+the configuration's regression tests without saving any edited buffers.
+
 ## Design
 I'm used to `VSCode`, so many configures are just aimed to minic it.
 
@@ -31,5 +54,4 @@ In Terminal:
   - s -> string (regex)
   - g -> git commits
   - m -> marks
-
 
