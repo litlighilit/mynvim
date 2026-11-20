@@ -48,13 +48,17 @@ sessions.setup{}
 require'workspaces'.setup{
 	hooks = {
 		--open = "NvimTreeOpen",
-		open_pre = {
-		  -- If recording, save current session state and stop recording
-		  "SessionsStop",
-
-		  -- delete all buffers (does not save changes)
-		  "silent %bdelete!",
-		},
+		open_pre = function()
+		  -- Check every buffer before stopping session recording or deleting any.
+		  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		    if vim.bo[buf].modified then
+		      vim.notify('Save or discard modified buffers before switching workspaces', vim.log.levels.WARN)
+		      return false
+		    end
+		  end
+		  sessions.stop_autosave()
+		  vim.cmd('silent %bdelete')
+		end,
 		open = function()
 		  sessions.load(nil, { silent = true })
 		end,
