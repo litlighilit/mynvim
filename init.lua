@@ -162,7 +162,9 @@ require('gitsigns-initkeys')
 local GitK = 'g'
 require('fugitive-flog-keys').setup("<leader>l", "<leader>"..GitK)
 
-if not vim.opt.statusline then  -- empty by default
+-- vim.opt.statusline is an option wrapper, always truthy. Compare its value
+-- with the default (which is no longer empty in newer Neovim versions).
+if vim.o.statusline == vim.api.nvim_get_option_info2('statusline', {}).default then
   vim.opt.statusline=
   --[[Path to the file[+][RO];  "%="-> right pad; %P -> percent ... see `:h 'statusline'` for details
   -- "%{get(b:, 'gitsigns_status', '')}"]]
