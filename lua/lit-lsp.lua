@@ -52,6 +52,8 @@ doIfExe('magick', function()
   local old_setup = _G.setup
   _G.setup = function()
     old_setup()
+    -- Sixel needs an attached UI; headless checks have no terminal dimensions.
+    if #vim.api.nvim_list_uis() == 0 then return end
     require'image'.setup{
       backend = 'sixel',
       integrations = {
