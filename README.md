@@ -22,6 +22,15 @@ A system-installed clangd is enabled for C/C++ when available.
   `<leader>fd` searches diagnostics. Neovim's `[d` / `]d` navigate diagnostics.
 - Existing Git/search/window mappings are preserved.
 
+### Completion
+
+`nvim-cmp` combines LSP, file paths and words from the current buffer. Use
+`Ctrl-Space` to request completion, `Ctrl-n` / `Ctrl-p` to select, `Enter` or
+`Tab` to accept (including the first suggestion), and `Ctrl-e` to dismiss.
+`Ctrl-b` / `Ctrl-f` scroll documentation; `Shift-Tab` selects the previous item.
+Nim retains its existing asyncomplete/nimsuggest integration, with cmp disabled
+for Nim to avoid two completion engines competing for the popup menu.
+
 ## Configuration checks
 
 From the repository, run `nvim --headless -i NONE -c 'luafile tests/run.lua'`
@@ -54,4 +63,3 @@ In Terminal:
   - s -> string (regex)
   - g -> git commits
   - m -> marks
-

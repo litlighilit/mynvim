@@ -38,11 +38,18 @@ Plug 'goolord/alpha-nvim'  -- welcome page & opened files history
 Plug 'Mofiqul/vscode.nvim' -- vscode theme
 Plug 'natecraddock/workspaces.nvim' -- workspace
 Plug 'natecraddock/sessions.nvim' -- workspace
+if not vim.g.vscode then
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
+end
 
 vim.call('plug#end')
 
 lspCfg.setup()
 if not vim.g.vscode then
+  require('completion').setup()
   require('lsp-setup').setup()
 end
 
