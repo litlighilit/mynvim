@@ -67,7 +67,6 @@ function M.setup()
       map('K', vim.lsp.buf.hover, 'Hover documentation')
       map('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
       map('<leader>ca', vim.lsp.buf.code_action, 'Code action')
-      map('<leader>cf', function() vim.lsp.buf.format({ async = true }) end, 'Format code')
       vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help,
         { buffer = ev.buf, desc = 'Signature help' })
     end,
