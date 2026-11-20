@@ -13,6 +13,7 @@ And, because I often manully clone git repo (usually in `git@` url),
 ]]
 local vim = vim
 local Plug = vim.fn['plug#']
+vim.g.mapleader = ' '
 
 
 vim.call('plug#begin')
@@ -41,6 +42,9 @@ Plug 'natecraddock/sessions.nvim' -- workspace
 vim.call('plug#end')
 
 lspCfg.setup()
+if not vim.g.vscode then
+  require('lsp-setup').setup()
+end
 
 -- ## workspace
 local sessions = require'sessions'
