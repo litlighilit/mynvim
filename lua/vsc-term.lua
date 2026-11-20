@@ -13,11 +13,10 @@ local terms = require("toggleterm.terminal")
 
 local function switch_or_create_terminal(count)
   local last_id = terms.get_focused_id()
-  local is_focused = last_id ~= nil
-  if is_focused then
-    toggleterm.toggle(last_id)  -- close previous one
-  end
   if count == 0 then count = terms.next_id() end
+  -- Let toggleterm hide an already-focused target, rather than hiding and
+  -- immediately reopening it.
+  if last_id and last_id ~= count then terms.get(last_id):close() end
   toggleterm.toggle(count)
 end
 
@@ -35,10 +34,16 @@ local function cycle_terminal(dir)
   if n <= 1 then return end
 
   local focused_id = terms.get_focused_id()
+  local idx
+  for i, term in ipairs(all) do
+    if term.id == focused_id then idx = i; break end
+  end
+  if not idx then return end
+  local focused = all[idx]
   local function switch_to(term)
-    -- We can check term:is_open() term:focus(),
-    --  but it's unnecessary
-    all[focused_id]:close()
+    if term.id == focused_id then return end
+    -- get_all() returns a dense array, not a table indexed by terminal ID.
+    focused:close()
     term:open()
   end
 
@@ -48,25 +53,19 @@ local function cycle_terminal(dir)
     return
   end
 
-  -- id may be greater than idx, so we find via loop
-  local idx = nil
-  for i, term in ipairs(all) do
-    if term.id == focused_id then idx = i; break end
-  end
-
   -- to next id
-  idx += dir
+  idx = idx + dir
   idx = ((idx-1) % n) + 1  -- reduce to 1..n
   switch_to(all[idx])
 end
 
-function on_open(term)
+local function on_open(term)
   local function mapn(k, cb, desc)
-    vim.keymap.set("n", k, cb, { buf = term.bufnr, desc = desc })
+    vim.keymap.set("n", k, cb, { buffer = term.bufnr, desc = desc })
   end
   mapn('gt', function() cycle_terminal( 1) end, "Next terminal")
   mapn('gT', function() cycle_terminal(-1) end, "Previous terminal")
-  mapn('<C-T>', function() toggleterm.toggle(); toggleterm.new() end, "New terminal")
+  mapn('<C-T>', function() switch_or_create_terminal(0) end, "New terminal")
 end
 
 local opt = {
@@ -92,4 +91,3 @@ function M.setup(toggletermOpt)
   toggleterm.setup(opt)
 end
 return M
-
