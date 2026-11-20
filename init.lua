@@ -13,6 +13,7 @@ And, because I often manully clone git repo (usually in `git@` url),
 ]]
 local vim = vim
 local Plug = vim.fn['plug#']
+vim.g.mapleader = ' '
 
 
 vim.call('plug#begin')
@@ -37,10 +38,26 @@ Plug 'goolord/alpha-nvim'  -- welcome page & opened files history
 Plug 'Mofiqul/vscode.nvim' -- vscode theme
 Plug 'natecraddock/workspaces.nvim' -- workspace
 Plug 'natecraddock/sessions.nvim' -- workspace
+if not vim.g.vscode then
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug('L3MON4D3/LuaSnip', { ['do'] = 'make install_jsregexp' })
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'stevearc/conform.nvim'
+  Plug 'folke/which-key.nvim'
+end
 
 vim.call('plug#end')
 
 lspCfg.setup()
+if not vim.g.vscode then
+  require('completion').setup()
+  require('lsp-setup').setup()
+  require('formatting').setup()
+end
 
 -- ## workspace
 local sessions = require'sessions'
@@ -48,13 +65,17 @@ sessions.setup{}
 require'workspaces'.setup{
 	hooks = {
 		--open = "NvimTreeOpen",
-		open_pre = {
-		  -- If recording, save current session state and stop recording
-		  "SessionsStop",
-
-		  -- delete all buffers (does not save changes)
-		  "silent %bdelete!",
-		},
+		open_pre = function()
+		  -- Check every buffer before stopping session recording or deleting any.
+		  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		    if vim.bo[buf].modified then
+		      vim.notify('Save or discard modified buffers before switching workspaces', vim.log.levels.WARN)
+		      return false
+		    end
+		  end
+		  sessions.stop_autosave()
+		  vim.cmd('silent %bdelete')
+		end,
 		open = function()
 		  sessions.load(nil, { silent = true })
 		end,
@@ -145,7 +166,9 @@ require('gitsigns-initkeys')
 local GitK = 'g'
 require('fugitive-flog-keys').setup("<leader>l", "<leader>"..GitK)
 
-if not vim.opt.statusline then  -- empty by default
+-- vim.opt.statusline is an option wrapper, always truthy. Compare its value
+-- with the default (which is no longer empty in newer Neovim versions).
+if vim.o.statusline == vim.api.nvim_get_option_info2('statusline', {}).default then
   vim.opt.statusline=
   --[[Path to the file[+][RO];  "%="-> right pad; %P -> percent ... see `:h 'statusline'` for details
   -- "%{get(b:, 'gitsigns_status', '')}"]]
@@ -169,8 +192,14 @@ mapl('fg', tele_bltin.git_commits, { desc = 'Telescope live search commits' })
 mapl('fm', tele_bltin.marks, { desc = 'Telescope list marks' })
 mapl('fh', tele_bltin.help_tags, { desc = 'Telescope help tags' })
 local function find_buf()
-	tele_bltin.buffers({select_current=true, sort_mru=true})
-	vim.api.nvim_buf_set_keymap(0, 'n', 'dd', '<M-d>', {desc="delete selected buffer"})
+	tele_bltin.buffers({
+		select_current=true,
+		sort_mru=true,
+		attach_mappings=function(_, picker_map)
+			picker_map('n', 'dd', require('telescope.actions').delete_buffer)
+			return true
+		end,
+	})
 end
 local function ls_buf(opts)
 	-- minic typing ESC to escape from insert mode in buffers select page
@@ -188,3 +217,7 @@ mapl(',', ls_buf, {desc='Telescope Buffer Live'})
 vim.api.nvim_create_user_command("Ls", ls_buf, {})
 
 mapl('?', tele_bltin.keymaps, { desc = 'Telescope help mapkeys' })
+
+if not vim.g.vscode then
+  require('key-hints').setup()
+end
