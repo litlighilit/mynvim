@@ -80,8 +80,7 @@ au User asyncomplete_setup call asyncomplete#register_source({
 
 -- ## C/C++
 Plug 'neovim/nvim-lspconfig'
-
-vim.lsp.enable('clangd')
+Plug 'mason-org/mason.nvim'
+Plug 'mason-org/mason-lspconfig.nvim'
 
 return _G
-

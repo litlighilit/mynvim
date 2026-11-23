@@ -13,6 +13,7 @@ And, because I often manully clone git repo (usually in `git@` url),
 ]]
 local vim = vim
 local Plug = vim.fn['plug#']
+vim.g.mapleader = ' '
 
 
 vim.call('plug#begin')
@@ -37,10 +38,26 @@ Plug 'goolord/alpha-nvim'  -- welcome page & opened files history
 Plug 'Mofiqul/vscode.nvim' -- vscode theme
 Plug 'natecraddock/workspaces.nvim' -- workspace
 Plug 'natecraddock/sessions.nvim' -- workspace
+if not vim.g.vscode then
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug('L3MON4D3/LuaSnip', { ['do'] = 'make install_jsregexp' })
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'stevearc/conform.nvim'
+  Plug 'folke/which-key.nvim'
+end
 
 vim.call('plug#end')
 
 lspCfg.setup()
+if not vim.g.vscode then
+  require('completion').setup()
+  require('lsp-setup').setup()
+  require('formatting').setup()
+end
 
 -- ## workspace
 local sessions = require'sessions'
@@ -188,3 +205,7 @@ mapl(',', ls_buf, {desc='Telescope Buffer Live'})
 vim.api.nvim_create_user_command("Ls", ls_buf, {})
 
 mapl('?', tele_bltin.keymaps, { desc = 'Telescope help mapkeys' })
+
+if not vim.g.vscode then
+  require('key-hints').setup()
+end
