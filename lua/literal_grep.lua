@@ -1,13 +1,14 @@
 local M = {}
 
--- I do not use the live-grep-args shortcut here as it relies on the -F postfix.
--- Escape regex metacharacters instead so the search remains literal without -F.
-local tele_live_grep = require('telescope').extensions.live_grep_args
-
 local function grep_literal(value)
+  -- The builtin picker passes the pattern after --, so leading dashes and
+  -- quotes cannot turn selected text into ripgrep arguments.
   value = vim.fn.escape(value, [[\.^$*+?()[]{}|]])
-  tele_live_grep.live_grep_args({
+  local multiline = value:find('\n', 1, true) ~= nil
+  value = value:gsub('\n', [[\n]])
+  require('telescope.builtin').live_grep({
     default_text = value,
+    additional_args = multiline and { '--multiline' } or {},
   })
 end
 
@@ -16,12 +17,11 @@ function M.word()
 end
 
 function M.visual()
-  local _, start_line, start_col = unpack(vim.fn.getpos('v'))
-  local _, end_line, end_col = unpack(vim.fn.getpos('.'))
-  start_line, end_line = math.min(start_line, end_line), math.max(start_line, end_line)
-  start_col, end_col = math.min(start_col, end_col), math.max(start_col, end_col)
-  local text = vim.api.nvim_buf_get_text(0, start_line - 1, start_col - 1, end_line - 1, end_col, {})
-  grep_literal(text[1] or '')
+  local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {
+    type = vim.fn.mode(),
+    exclusive = vim.o.selection == 'exclusive',
+  })
+  grep_literal(table.concat(text, '\n'))
 end
 
 return M
